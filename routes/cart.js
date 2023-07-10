@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const Cart = require('../models/Cart')
-const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('./verifyToken')
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../middleware/verifyToken')
 
 //CREATE (any user can create its own cart)
 router.post('/', verifyToken, async (req, res) => {

@@ -2,6 +2,9 @@ const express = require('express')
 const userRoute = require('./routes/users')
 const authRoute = require('./routes/auth')
 const productRoute = require('./routes/product')
+const cartRoute = require('./routes/cart')
+const orderRoute = require('./routes/order')
+
 // mongoose connect
 require('./config/mongoose')
 
