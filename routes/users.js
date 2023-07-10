@@ -62,5 +62,34 @@ router.get('/', verifyTokenAndAdmin, async (req, res) => {
   }
 })
 
+// GET USER STATS
+router.get('/stats', verifyTokenAndAdmin, async (req, res) => {
+  // represent the current date and time
+  const date = new Date()
+  // hold the date one year ago from the current date : subtract 1 from the year of the date object
+  const lastYear = new Date(date.setFullYear(date.getFullYear() - 1))
+
+  try {
+    // use aggregation operations to calculate the number of new users per month in the past year.
+    const data = await User.aggregate([
+      // $gte is one of the query operators in MongoDB, used to compare the value of a field with a specified value to check if it is greater than or equal to that value. (lastYear is the value being compared, representing a date one year ago.)
+      { $match: { createdAt: { $gte: lastYear } } },
+      {
+        $project: {
+          month: { $month: '$createdAt' }
+        }
+      },
+      {
+        $group: {
+          _id: '$month',
+          total: { $sum: 1 }
+        }
+      }
+    ])
+    res.status(200).json(data)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
 
 module.exports = router
