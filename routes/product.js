@@ -41,12 +41,38 @@ router.delete('/:id', verifyTokenAndAdmin, async (req, res) => {
 })
 
 //GET PRODUCT (everybody can see product)
-router.get("/find/:id", async (req, res) => {
+router.get('/find/:id', async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
-    res.status(200).json(product);
+    const product = await Product.findById(req.params.id)
+    res.status(200).json(product)
   } catch (err) {
     res.status(500).json({ error: err.message })
+  }
+})
+
+//GET ALL PRODUCTS
+router.get('/', async (req, res) => {
+  const qNew = req.query.new
+  const qCategory = req.query.category
+  try {
+    let products
+
+    if (qNew) {
+      products = await Product.find().sort({ createdAt: -1 }).limit(1)
+    } else if (qCategory) {
+      products = await Product.find({
+        categories: {
+          // MongoDB query operators, used to specify a match for any value in an array.
+          $in: [qCategory]
+        }
+      })
+    } else {
+      products = await Product.find()
+    }
+
+    res.status(200).json(products)
+  } catch (err) {
+    res.status(500).json(err)
   }
 })
 
