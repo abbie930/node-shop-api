@@ -50,6 +50,17 @@ router.get('/find/:id', verifyTokenAndAdmin, async (req, res) => {
   }
 })
 
+// GET ALL USER
+router.get('/', verifyTokenAndAdmin, async (req, res) => {
+  // retrieve the value of the new parameter from the request's query parameters. This parameter is a boolean value that indicates whether to retrieve only the latest user data.
+  const query = req.query.new
+  try {
+    const users = query ? await User.find().sort({ _id: -1 }).limit(5) : await User.find()
+    res.status(200).json(users)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
 
 
 module.exports = router
