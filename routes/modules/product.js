@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const Product = require('../models/Product')
-const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../middleware/verifyToken')
+const Product = require('../../models/Product')
+const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../../middleware/verifyToken')
 
 // CREATE
 router.post('/', verifyTokenAndAdmin, async (req, res) => {
