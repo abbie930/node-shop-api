@@ -72,11 +72,10 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({
       username: req.body.username
     })
-    console.log(user)
 
     // If can't find the user return error
     if (!user) {
-      return res.status(401).json({ error: 'Wrong name!' })
+      return res.status(401).json({ status: 'error', message: 'Incorrect username or password' })
     }
 
     // decrypt user password
@@ -86,7 +85,7 @@ router.post('/login', async (req, res) => {
 
     // Check if the password matches
     if (OriginalPassword !== req.body.password) {
-      return res.status(401).json({ error: 'Wrong Credentials!' })
+      return res.status(401).json({ status: 'error', message: 'Incorrect username or password!' })
     }
 
     // jwt
