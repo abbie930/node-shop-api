@@ -15,7 +15,7 @@ router.use('/user', user)
 router.use('/cart', cart)
 router.use('/order', order)
 router.use('/auth', auth)
-router.use('checkout', stripe)
+router.use('/stripe', stripe)
 
 router.use('/', errorHandler)
 
