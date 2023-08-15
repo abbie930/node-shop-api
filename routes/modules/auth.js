@@ -81,7 +81,6 @@ router.post('/login', async (req, res) => {
     // decrypt user password
     const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.PASS_SEC)
     const OriginalPassword = hashedPassword.toString(CryptoJS.enc.Utf8)
-    console.log(OriginalPassword)
 
     // Check if the password matches
     if (OriginalPassword !== req.body.password) {
